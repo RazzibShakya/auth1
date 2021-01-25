@@ -1,6 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from './index'
 
+function handleUser(userObject: gapi.auth2.BasicProfile) {
+  const userprofile = { name: userObject.getName(), firstname: userObject.getGivenName(), lastname: userObject.getFamilyName(), email: userObject.getEmail(), id: userObject.getId(), image: userObject.getImageUrl() }
+  return userprofile
+}
+
 export function useGapiAuthLogin(type: 'facebook' | 'google') {
   const googleAuth = useContext(AuthContext);
 
@@ -10,7 +15,7 @@ export function useGapiAuthLogin(type: 'facebook' | 'google') {
     }
     if (type === 'google') {
       googleAuth?.getAuthInstance().signIn().then(
-        res => console.log(res),
+        res => console.log(handleUser(res.getBasicProfile())),
         err => console.log(err)
       )
     }
@@ -31,6 +36,6 @@ export function useGapiAuthLogout() {
 export function useGapiAuthUser() {
   const googleAuth = useContext(AuthContext);
   const userObject = googleAuth?.getAuthInstance().currentUser.get().getBasicProfile();
-  const UserProfile = userObject && { name: userObject.getName(), firstname: userObject.getGivenName(), lastname: userObject.getFamilyName(), email: userObject.getEmail(), id: userObject.getId(), image: userObject.getImageUrl() }
+  const UserProfile = userObject && handleUser(userObject);
   return UserProfile
 }
