@@ -6,7 +6,7 @@ export function useGapiAuthLogin(type: 'facebook' | 'google') {
 
   function signIn(e?: Event) {
     if (e) {
-      e.preventDefault() 
+      e.preventDefault()
     }
     if (type === 'google') {
       googleAuth?.getAuthInstance().signIn().then(
@@ -30,6 +30,7 @@ export function useGapiAuthLogout() {
 
 export function useGapiAuthUser() {
   const googleAuth = useContext(AuthContext);
-  const userObject = googleAuth?.getAuthInstance().currentUser.get();
-  return userObject
+  const userObject = googleAuth?.getAuthInstance().currentUser.get().getBasicProfile();
+  const UserProfile = userObject && { name: userObject.getName(), firstname: userObject.getGivenName(), lastname: userObject.getFamilyName(), email: userObject.getEmail(), id: userObject.getId(), image: userObject.getImageUrl() }
+  return UserProfile
 }
