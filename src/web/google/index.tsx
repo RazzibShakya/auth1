@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import loadScript from './load-script';
-import removeScript from './remove-script';
+// import removeScript from './remove-script';
 
-const AuthContext = createContext<typeof gapi.auth2>(null);
+const AuthContext = createContext<typeof gapi.auth2 | null>(null);
 export function GapiAuth({ clientId, ...other }: { clientId: string }) {
-  const [auth2, setAuth2] = useState();
+  const [auth2, setAuth2] = useState<typeof gapi.auth2 | null>(null);
 
   useEffect(() => {
     let mounted = false;
@@ -15,21 +15,20 @@ export function GapiAuth({ clientId, ...other }: { clientId: string }) {
       'https://apis.google.com/js/api.js',
       () => {
         const params = {
-          client_id: clientId
+          client_id: clientId,
+          fetch_basic_profile: true,
         }
         window.gapi.load('auth2', () => {
           const GoogleAuth = window.gapi.auth2.getAuthInstance();
-          setAuth2(GoogleAuth)
+          console.log('google auth', GoogleAuth);
           if (!GoogleAuth) {
             window.gapi.auth2.init(params).then(res => {
               if (!mounted) {
-                console.log('init', res);
-              } // setAuth2(res)
-
+                setAuth2(window.gapi.auth2)
+              }
             },
               err => {
                 console.log(err);
-
               })
           }
         })
@@ -40,7 +39,7 @@ export function GapiAuth({ clientId, ...other }: { clientId: string }) {
     )
     return () => {
       mounted = true
-      removeScript(document, 'google-login')
+      // removeScript(document, 'google-login')
     }
   }, [])
 
@@ -57,53 +56,31 @@ export function useGapiAuthLogin() {
     if (e) {
       e.preventDefault() // to prevent submit if used within form
     }
-    if (auth2) {
-      const options = {
-        prompt
-      }
-
-      const GoogleAuth = window.gapi.auth2.getAuthInstance();
-      GoogleAuth.signIn(options).then(
-        res => console.log(res),
-        err => console.log(err)
-      )
-    }
+    auth2?.getAuthInstance().signIn().then(
+      res => console.log(res),
+      err => console.log(err)
+    )
   }
-
-  if (auth2 === undefined) return console.log('Loading')
-  if (auth2 === null) return console.log('error while signing in')
-  if (auth2) return signIn
+  return signIn as () => void
 }
 
 export function useGapiAuthLogout() {
   const auth2 = useContext(AuthContext);
   const signOut = () => {
-    if (auth2) {
-      if (auth2 != null) {
-        const GoogleAuth = window.gapi.auth2.getAuthInstance();
-
-        GoogleAuth.then(
-          () => {
-            GoogleAuth.signOut().then(() => {
-              GoogleAuth.disconnect()
-            })
-          },
-          err => console.log(err)
-        )
-      }
-    }
+    auth2?.getAuthInstance().signOut().then(() => {
+      auth2?.getAuthInstance().disconnect()
+    })
   }
-
-  if (auth2 === undefined) return console.log('Loading')
-  if (auth2 === null) return console.log('error while signing out')
-  if (auth2) return signOut
+  return signOut as () => void
 }
 
 export function useGapiAuthUser() {
   const auth2 = useContext(AuthContext);
+  const userObject = auth2?.getAuthInstance().currentUser.get();
 
-  if (auth2 === undefined) return console.log('Loading')
-  if (auth2 === null) return console.log('error while signing out')
-  if (auth2) return auth2.currentUser.get()
+  if (userObject === null) return null
+  return userObject
 }
+
+
 
