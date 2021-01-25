@@ -3,8 +3,8 @@
   "compilerOptions": {
     "target": "es2017",
     "lib": ["es2017", "DOM"],
-    "types": ["react"],
-    "module": "es6",
+    "jsx": "react",
+    "module": "commonjs",
     "esModuleInterop": true,
     "noImplicitAny": true,
     "removeComments": true,
