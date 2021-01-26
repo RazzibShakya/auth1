@@ -5,25 +5,28 @@
 
 ```typescript
   function App() {
+  useGoogleAuth({clientId:''})
     return (
-      <GapiAuth clientId="">
+    <>
         <UserBar />
-      </GapiAuth>
+        <LoginButton/>
+        <LogoutButton/>
+    </>
     );
   }
   
   function LoginButton() {
-    const login = useGapiAuthLogin();
+    const login = useGoogleLogin();
     return <button onClick={login}>Login</button>
   }
   
   function LogoutButton() {
-    const logout = useGapiAuthLogout();
+    const logout = useAuthLogout();
     return <button onClick={logout}>Logout</button>
   }
   
   function UserBar() {
-    const user = useGapiAuthUser();
+    const user = useAuthProfile();
     if (!user) return null;
     return user.name;
   }
