@@ -1,3 +1,6 @@
+/**
+ * Insert javascript script element
+ */
 export default (d: any, s: string, id: string, jsSrc: string, cb: any, onError: (err: Error) => void) => {
   const element = d.getElementsByTagName(s)[0]
   const fjs = element
