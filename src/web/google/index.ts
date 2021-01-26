@@ -1,9 +1,10 @@
 import { useContext, useEffect } from 'react';
-import { AuthContext } from '../../AuthContext';
+import { AuthContext, useAuthLogin } from '../../AuthContext';
 import loadScript from '../../utils/load_script';
 import removeScript from '../../utils/remove_script';
 
 const GAPI_SRC = 'https://apis.google.com/js/api.js';
+const AUTH_ID = 'google';
 
 function toAuthProfile(user: gapi.auth2.GoogleUser) {
   if (!user) return null;
@@ -23,7 +24,7 @@ export function useGoogleAuth({ clientId }: { clientId: string }) {
   const authManager = useContext(AuthContext);
   
   useEffect(() => {
-    const auth = authManager.register('google');
+    const auth = authManager.register(AUTH_ID);
 
     loadScript(document, 'script', 'google-login', GAPI_SRC, () => {
       const params = {
@@ -62,3 +63,5 @@ export function useGoogleAuth({ clientId }: { clientId: string }) {
     }
   }, []);
 }
+
+export const useGoogleLogin = useAuthLogin.bind(null, AUTH_ID);

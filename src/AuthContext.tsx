@@ -19,10 +19,7 @@ export interface AuthProvider {
 }
 
 class AuthManager {
-  private providers: {
-    [type: string]: AuthProvider
-  } = {};
-
+  private providers = new Map<string, AuthProvider>();
   private listeners: Dispatch<AuthProvider>[] = [];
 
   private initializing = new Set<string>();
@@ -30,7 +27,9 @@ class AuthManager {
   private activeProvider: AuthProvider;
   
   getActive = () => {
-    return this.activeProvider || (this.initializing.size === 0 ? null : undefined);
+    return this.activeProvider || (
+      (this.providers.size === 0 || this.initializing.size !== 0) ? undefined : null
+    );
   }
 
   setActive(provider: AuthProvider) {
@@ -49,7 +48,7 @@ class AuthManager {
   }
 
   register(type: string) {
-    if (this.initializing.has(type)) {
+    if (this.initializing.has(type) || this.providers.has(type)) {
       throw new Error(`Auth Provider ${type} is already registered`);
     }
 
@@ -57,22 +56,29 @@ class AuthManager {
 
     return {
       setup: (provider: AuthProvider, active: boolean) => {
-        this.providers[type] = provider;
-        if (active) this.activeProvider = provider;
+        this.providers.set(type, provider);
         this.initializing.delete(type);
+        if (active) {
+          this.setActive(provider);
+        } else if (this.initializing.size === 0 && !this.activeProvider) {
+          this.setActive(null);
+        }
       },
       clear: (err?: string) => {
         if (err) {
           console.error(`Clearing auth with error ${err}`)
         }
         this.initializing.delete(type);
-        delete this.providers[type];
+        this.providers.delete(type);
+        if (this.initializing.size === 0 && !this.activeProvider) {
+          this.setActive(null);
+        }
       }
     };
   }
 
   get(type: string) {
-    return this.providers[type];
+    return this.providers.get(type);
   }
 }
 
@@ -80,9 +86,12 @@ export const AuthContext = React.createContext(new AuthManager());
 
 export function useAuthLogin(type: string) {
   const authManager = useContext(AuthContext);
-  const authProvider = authManager.get(type);
 
-  return authProvider.login;
+  return () => {
+    const authProvider = authManager.get(type);
+    if (!authProvider) throw new Error(`No provider found for ${type}`);
+    return authProvider.login();
+  }
 }
 
 export function useAuthLogout() {
@@ -100,6 +109,5 @@ export function useAuthProfile() {
   useEffect(() => {
     return authManager.subscribe(setProvider);
   }, []);
-
-  return provider || provider.getProfile();
+  return provider && provider.getProfile();
 }
