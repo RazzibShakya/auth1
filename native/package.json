@@ -1,0 +1,26 @@
+{
+  "name": "@bhoos/auth-native",
+  "version": "1.0.0",
+  "description": "Bhoos Authentication Library for react-native",
+  "main": "src/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+  },
+  "dependencies": {
+    "nanoid": "^3.1.23"
+  },
+  "peerDependencies": {
+    "@react-native-google-signin/google-signin": "*",
+    "@react-native-async-storage/async-storage": "*",
+    "react-native-fbsdk-next": "*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": "git@github.com:bhoos/auth",
+  "author": "Ranjan Shrestha",
+  "license": "UNLICENSED",
+  "private": false
+}

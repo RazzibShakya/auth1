@@ -1,0 +1,15 @@
+{
+  "name": "auth-library-workspace",
+  "private": true,
+  "workspaces": [
+    "native",
+    "server",
+    "common"
+  ],
+  "repository": "git@github.com:bhoos/auth",
+  "author": "Ranjan Shrestha <ranjan@sharingapples.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
