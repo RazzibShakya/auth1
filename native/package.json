@@ -7,6 +7,7 @@
     "src"
   ],
   "scripts": {
+    "release": "lerna exec --no-bail --no-private --no-sort --stream -- '[ -n \"$(npm v . dist-tags.next)\" ] && npm dist-tag add ${LERNA_PACKAGE_NAME}@$(npm v . dist-tags.next) latest'"
   },
   "dependencies": {
     "nanoid": "^3.1.23"

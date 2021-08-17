@@ -18,7 +18,8 @@
     "build:cjs": "tsc",
     "build:es6": "tsc --module es2020 --outDir es6 && echo '{\"type\":\"module\"}' > es6/package.json",
     "build": "yarn clean && yarn build:es6 && yarn build:cjs",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "release": "lerna exec --no-bail --no-private --no-sort --stream -- '[ -n \"$(npm v . dist-tags.next)\" ] && npm dist-tag add ${LERNA_PACKAGE_NAME}@$(npm v . dist-tags.next) latest'"
   },
   "dependencies": {
     "@bhoos/auth-common": "^1.0.0",
