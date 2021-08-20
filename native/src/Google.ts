@@ -2,6 +2,10 @@ import { Auth, Identity } from './Auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export class Google extends Auth {
+  constructor(){
+    super();
+    this.onInit();
+  }
   async getIdentity(): Promise<Identity> {
     let user = await GoogleSignin.getCurrentUser();
     if (!user) {
