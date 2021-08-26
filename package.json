@@ -7,7 +7,6 @@
     "common"
   ],
   "scripts": {
-    "patch": "lerna version patch --yes && lerna publish from-git --yes --no-verify-access --dist-tag next",
     "release": "lerna run release"
   },
   "repository": "git@github.com:bhoos/auth",
