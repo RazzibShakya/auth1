@@ -1,6 +1,6 @@
 {
   "name": "@bhoos/auth-common",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "description": "Bhoos Authentication Common",
   "main": "dist/index.js",
   "module": "es6/index.js",
