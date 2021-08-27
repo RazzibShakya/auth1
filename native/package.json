@@ -1,6 +1,6 @@
 {
   "name": "@bhoos/auth-native",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Bhoos Authentication Library for react-native",
   "main": "src/index.ts",
   "files": [
