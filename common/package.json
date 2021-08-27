@@ -1,6 +1,6 @@
 {
   "name": "@bhoos/auth-common",
-  "version": "1.0.0",
+  "version": "2.0.2",
   "description": "Bhoos Authentication Common",
   "main": "dist/index.js",
   "module": "es6/index.js",
@@ -19,12 +19,8 @@
     "build:cjs": "tsc",
     "build:es6": "tsc --module es2020 --outDir es6 && echo '{\"type\":\"module\"}' > es6/package.json",
     "build": "yarn clean && yarn build:es6 && yarn build:cjs",
-    "prepublishOnly": "yarn build"
-  },
-  "dependencies": {
-
-  },
-  "peerDependencies": {
+    "prepublishOnly": "yarn build",
+    "release": "npm dist-tag add ${npm_package_name}@${npm_package_version} latest"
   },
   "devDependencies": {
     "@types/node": "^14.14.37",

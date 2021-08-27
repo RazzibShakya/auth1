@@ -1,0 +1,62 @@
+# When any change is pushed on master, it is merged into
+# a corresponding release branch (Ex: releases/1.0) which
+# triggers a beta version release with @beta tag
+#
+# When a release itself is merged into master, then the
+# beta version is promoted to staging and available with
+# @next tag. At the same time a Github Release is created
+# with 'prerelease' flag which could be released to
+# promote the staging version to latest production.
+name: Process master branch updates
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  prepare-master:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: |
+          git config user.name bhoos-devops
+          git config user.email devops@bhoos.com
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@bhoos'
+          
+      - name: Install Dependencies and publish packages
+        run: |
+          yarn
+          yarn lerna version patch --yes
+          yarn lerna publish from-git --yes --no-verify-access --dist-tag next
+          version=$(node -p "require('./lerna.json').version")
+          echo "RELEASE_VERSION=v${version}" >> $GITHUB_ENV
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v1
+        with:
+          configuration: "workflow_config/config.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Create Release for moving to production
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.RELEASE_VERSION }}
+          name: Release ${{ env.RELEASE_VERSION }}
+          commit: master
+          body: ${{steps.github_release.outputs.changelog}}
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
