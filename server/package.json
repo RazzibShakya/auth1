@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@bhoos/auth-common": "^2.0.4",
+    "google-auth-library": "$7.6.2",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
@@ -38,5 +39,6 @@
   },
   "repository": "git@github.com:bhoos/auth",
   "author": "Ranjan Shrestha",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "gitHead": "ad107830a70f598b380e8cc8fbe6ef4384d9f635"
 }
