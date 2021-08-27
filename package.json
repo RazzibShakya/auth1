@@ -6,6 +6,9 @@
     "server",
     "common"
   ],
+  "scripts": {
+    "release": "lerna run release"
+  },
   "repository": "git@github.com:bhoos/auth",
   "author": "Ranjan Shrestha <ranjan@sharingapples.com>",
   "license": "UNLICENSED",
