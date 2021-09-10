@@ -34,7 +34,7 @@ jobs:
       - name: Install Dependencies and publish packages
         run: |
           yarn
-          yarn build  # Build step is required, when there is only one package to be published but depeneds on other packages that have not changed
+          yarn build  # Build step is required, when there is only one package to be published but depends on other packages that have not changed
           yarn lerna version patch --yes
           yarn lerna publish from-git --yes --no-verify-access --dist-tag next
           version=$(node -p "require('./lerna.json').version")
