@@ -7,12 +7,16 @@ export class Google extends Auth {
     this.onInit();
   }
   async getIdentity(): Promise<Identity> {
-    let user = await GoogleSignin.getCurrentUser();
+    let user;
+    const isSignedIn=await GoogleSignin.isSignedIn();
+    if(isSignedIn){
+       await GoogleSignin.signInSilently();
+       user = await GoogleSignin.getCurrentUser();
+    }
     if (!user) {
       user = await GoogleSignin.signIn();
       if (!user) throw new Error('Failed to login');
     }
-
     return {
       id: user.user.id,
       token: user.idToken as string,
