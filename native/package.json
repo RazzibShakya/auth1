@@ -1,6 +1,6 @@
 {
   "name": "@bhoos/auth-native",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Bhoos Authentication Library for react-native",
   "main": "src/index.ts",
   "files": [
@@ -10,7 +10,7 @@
     "release": "npm dist-tag add ${npm_package_name}@${npm_package_version} latest"
   },
   "dependencies": {
-    "@bhoos/auth-common": "^2.0.10",
+    "@bhoos/auth-common": "^2.0.11",
     "nanoid": "^3.1.23"
   },
   "peerDependencies": {
