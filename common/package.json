@@ -1,7 +1,7 @@
 {
   "name": "@bhoos/auth-common",
   "version": "2.0.10",
-  "description": "Bhoos Authentication Common",
+  "description": "Bhoos Authentication Common Code for Native and Server",
   "main": "dist/index.js",
   "module": "es6/index.js",
   "react-native": "src/index.ts",
