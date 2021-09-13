@@ -1,6 +1,6 @@
 {
   "name": "@bhoos/auth-server",
-  "version": "2.0.2",
+  "version": "2.0.9",
   "description": "Bhoos Authentication Library for Server",
   "main": "dist/index.js",
   "module": "es6/index.js",
@@ -21,7 +21,8 @@
     "release": "npm dist-tag add ${npm_package_name}@${npm_package_version} latest"
   },
   "dependencies": {
-    "@bhoos/auth-common": "^2.0.2",
+    "@bhoos/auth-common": "^2.0.9",
+    "google-auth-library": "^7.6.2",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
@@ -37,5 +38,6 @@
   },
   "repository": "git@github.com:bhoos/auth",
   "author": "Ranjan Shrestha",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "gitHead": "ad107830a70f598b380e8cc8fbe6ef4384d9f635"
 }

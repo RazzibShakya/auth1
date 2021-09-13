@@ -6,7 +6,7 @@ const GUEST_LOGIN_PARSER_TOKEN = process.env.GUEST_LOGIN_PARSER_TOKEN;
 export async function guestLogin(token: string): Promise<AuthUserProfile> {
   const k = JSON.parse(token);
   return {
-    type: UserType.BhoosGuest,
+    type: UserType.Guest,
     typeId: k.id,
     name: k.name,
     picture: k.picture,

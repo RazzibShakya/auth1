@@ -1,6 +1,6 @@
 {
   "name": "@bhoos/auth-native",
-  "version": "2.0.2",
+  "version": "2.0.8",
   "description": "Bhoos Authentication Library for react-native",
   "main": "src/index.ts",
   "files": [
@@ -24,5 +24,6 @@
   "repository": "git@github.com:bhoos/auth",
   "author": "Ranjan Shrestha",
   "license": "UNLICENSED",
-  "private": false
+  "private": false,
+  "gitHead": "ad107830a70f598b380e8cc8fbe6ef4384d9f635"
 }
