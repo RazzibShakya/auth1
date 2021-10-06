@@ -16,7 +16,8 @@
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "*",
     "@react-native-google-signin/google-signin": "*",
-    "react-native-fbsdk-next": "*"
+    "react-native-fbsdk-next": "*",
+    "@invertase/react-native-apple-authentication": "*"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
